@@ -7,9 +7,9 @@ namespace AparmentListingMonitor
 {
     public class UserManager
     {
-        private string UserDataFile = @"users.txt";
-        private string HistoryPath = "History";
-        private string NewItemsCountFolder = "Reporting";
+        private string UserDataFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "users.txt");
+        private string HistoryPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "History");
+        private string NewItemsCountFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Reporting");
 
         public List<UserProfile> GetUserProfiles()
         {

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading;
+using Microsoft.Extensions.Configuration;
 
 namespace AparmentListingMonitor
 {
@@ -38,7 +39,16 @@ namespace AparmentListingMonitor
 
         private static void GetSettings()
         {
-            var reportingHour = ConfigurationManager.AppSettings["ReportingHour"];
+            var settingsFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "app.settings.json");
+            System.Console.WriteLine($"Settings file at '{settingsFile}'");
+
+            var builder = new ConfigurationBuilder()
+                 .SetBasePath(Directory.GetCurrentDirectory())
+                 .AddJsonFile(settingsFile);
+
+            var configuration = builder.Build();
+
+            var reportingHour = configuration["ReportingHour"];
             if (!String.IsNullOrEmpty(reportingHour))
             {
                 _reportingHour = Convert.ToInt32(reportingHour);
@@ -49,8 +59,8 @@ namespace AparmentListingMonitor
                 Console.WriteLine("Reporting not set.");
             }
 
-            _mailManUsername = ConfigurationManager.AppSettings["MailManUsername"];
-            _mailMainPassword = ConfigurationManager.AppSettings["MailManPassword"];
+            _mailManUsername = configuration["MailManUsername"];
+            _mailMainPassword = configuration["MailManPassword"];
 
             if (String.IsNullOrEmpty(_mailManUsername)
             || String.IsNullOrEmpty(_mailMainPassword))
@@ -58,7 +68,7 @@ namespace AparmentListingMonitor
                 throw new Exception("MailMan username and/or password is missing.");
             }
 
-            _adminEmail = ConfigurationManager.AppSettings["AdminEmail"];
+            _adminEmail = configuration["AdminEmail"];
             if (String.IsNullOrEmpty(_adminEmail))
             {
                 Console.WriteLine("Admin email not set.");
