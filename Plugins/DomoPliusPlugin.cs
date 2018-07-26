@@ -6,7 +6,7 @@ namespace AparmentListingMonitor
 {
     public class DomoPliusPlugin : IApartmentListingWebsitePlugin
     {
-        public string Host => "domo.plius.lt";
+        public string Host => "domoplius.lt";
 
         public List<ApartmentListing> GetApartmentListing(string searchUrl)
         {
@@ -16,7 +16,7 @@ namespace AparmentListingMonitor
             var doc = new HtmlDocument();
             doc.LoadHtml(source);
 
-            var nodes = doc.DocumentNode.SelectNodes("//div[@class='item']");
+            var nodes = doc.DocumentNode.SelectNodes("//div[@class='item lt']");
             if (nodes != null)
             {
                 try
@@ -25,7 +25,7 @@ namespace AparmentListingMonitor
                         nodes.Select(n => new ApartmentListing
                         {
                             Link = n.SelectSingleNode(".//h2[@class='title-list']/a").Attributes["href"].Value.Trim(),
-                            Title = n.SelectSingleNode(".//h2[@class='title-list']/a").Attributes["title"].Value,
+                            Title = n.SelectSingleNode(".//h2[@class='title-list']/a").Attributes["title"].Value.Replace("kambario butas Vilniuje", "kamb"),
                             Price = n.SelectSingleNode(".//div[@class='price']/p/strong").InnerText
                         }));
                 }

@@ -18,15 +18,14 @@ namespace AparmentListingMonitor
             var nodes = doc.DocumentNode.SelectNodes("//div[starts-with(@id, 'lv_ad_id_')]");
             if (nodes != null)
             {
-
                 foreach (var n in nodes)
                 {
                     try
                     {
                         listing.Add(new ApartmentListing
                         {
-                            Link = n.SelectSingleNode(".//a[@class='advertisement-link cursor-pointer']").Attributes["href"].Value,
-                            Title = n.SelectSingleNode(".//div[@class='title']/a[@class='advertisement-link cursor-pointer']").InnerText.Trim(),
+                            Link = n.SelectSingleNode(".//a[@class='vertiselink cursor-pointer']").Attributes["href"].Value,
+                            Title = n.SelectSingleNode(".//div[@class='title']/a[@class='vertiselink cursor-pointer']").InnerText.Trim().Replace(". butas Vilnius", ""),
                             Price = n.SelectSingleNode(".//span[contains(@class, 'main_price')]").InnerText
                         });
                     }
