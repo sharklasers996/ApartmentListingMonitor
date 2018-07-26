@@ -152,6 +152,8 @@ namespace AparmentListingMonitor
 
             var mailMan = new MailMan(_mailManUsername, _mailMainPassword);
             mailMan.SendMail(_adminEmail, emailBody.ToString(), $"Stats: {DateTime.Now:dd-mm-yyyy}");
+
+            Console.WriteLine("Report sent.");
         }
     }
 }
